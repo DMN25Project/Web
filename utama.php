@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Game Lezat</title>
+  <style>
+    body {
+      background: rgba(0,0,0,0.5);
+    }
+    .center{
+      text-align: center;
+      color: white;
+    }
+    .poto {
+      width: 50%;
+      padding-top: 5%;
+      padding-left: 25%;
+    }
+    .list {
+      background: rgba(0,0,0,0.4);
+      margin: 0% 10% 0% 10%;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="center">Dimas H Game</h1><br>
+  <br>
+  <div class="list" onclick="list1()">
+    <img class="poto" src="img/lezat.jpg"><br>
+  </div><br>
+  <div class="list" onclick="list2()">
+    <img src="img/nguwawor.jpg" class="poto"><br>
+    </form>
+  </div><br>
+  <form action="logout.php" method="post">
+        <button class="logout-button" type="submit">Logout</button>
+    </form>
+  <script>
+    function list1() {
+      window.location = "list/Game1.html";
+    }
+    function list2() {
+      window.location = "list/Game2.html";
+    }
+  </script>
+</body>
+</html>
