@@ -1,4 +1,4 @@
 <?php
-header("Location: utama.php");
+header("Location: utama.html");
 exit();
 ?>
