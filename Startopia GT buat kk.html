@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rumus Startopia - Finder Tool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1e38 100%);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --accent-blue: #38bdf8;
+            --accent-purple: #818cf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --search-bg: #0f172a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 30px 15px;
+        }
+
+        .wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Search Section */
+        .search-container {
+            position: sticky;
+            top: 15px;
+            z-index: 10;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-radius: 16px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 18px 25px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            background: var(--search-bg);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            color: #fff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+        }
+
+        /* Helper Info */
+        .info-bar {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid var(--border-color);
+            padding: 12px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .badge-count {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent-blue);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* List Items */
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .item-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 22px;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .item-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .problem-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .problem-title::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 18px;
+            background: var(--accent-blue);
+            border-radius: 4px;
+        }
+
+        .steps-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .step-pill {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            text-transform: uppercase;
+        }
+
+        .step-arrow {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Note Section */
+        .note-card {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .note-card h3 {
+            color: #f87171;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .note-card ul {
+            list-style-type: none;
+            font-size: 0.88rem;
+            color: #cbd5e1;
+        }
+
+        .note-card li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .note-card li::before {
+            content: "•";
+            color: #f87171;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* Empty state */
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <header>
+            <h1>RUMUS STARTOPIA</h1>
+            <p>Sistem Pencarian Otomatis & Cepat untuk Problem Solver by SPXID</p>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Ketik nama problem di sini...">
+        </div>
+
+        <div class="info-bar">
+            <span>Menampilkan data problem resmi</span>
+            <span class="badge-count" id="matchCount">0 Problem</span>
+        </div>
+
+        <div class="no-results" id="noResults">
+            ❌ Problem tidak ditemukan. Coba kata kunci lain.
+        </div>
+
+        <div class="items-list" id="itemsList">
+            <!-- Data will be dynamically rendered here by JavaScript -->
+        </div>
+
+        <div class="note-card">
+            <h3>PANDUAN TOOL [SKILL SUCCESS / FAIL]</h3>
+            <ul>
+                <li>Setiap Anda klik/menekan tools, selalu perhatikan tanda di game.</li>
+                <li>Jika bertulisan <b>"SKILL FAIL"</b>, Anda harus klik/menekan KEMBALI tools yang sama sampai muncul tulisan <b>"SKILL SUCCESS"</b>.</li>
+                <li>Jika bertulisan <b>"SKILL SUCCESS"</b>, Anda baru bisa lanjut menggunakan tools selanjutnya.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Full consolidated database from all uploaded formula images
+        const startopiaData = [
+            // Image 1
+            { problem: "SHIP RESCUE", steps: ["GALACTICBOLT", "TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "SPACE MEDS", "TELEPORTER CHARGE"] },
+            { problem: "BAD TASTE", steps: ["TELEPORTER CHARGE", "CYBORG DIPLOMAT", "STELLAR DOCUMENTS", "GIGABLASTER"] },
+            { problem: "A STRANGE ONE", steps: ["TACTICAL DRONE", "CYBORG DIPLOMAT", "GALACTICBOLT", "AL BRAIN", "STELLAR DOCUMENTS"] },
+            { problem: "SKELETON CREW", steps: ["TELEPORTER CHARGE", "QUADRISCANNER", "AL BRAIN", "STELLAR DOCUMENTS"] },
+            { problem: "TASTY CAKES", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "AL BRAIN", "QUADRISCANNER", "GIGABLASTER", "TELEPORTER CHARGE"] },
+            { problem: "GHOST SHIP", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "CYBORG DIPLOMAT", "STELLAR DOCUMENTS", "TELEPORTER CHARGE"] },
+            { problem: "GIANT SKELETON", steps: ["TACTICAL DRONE", "AL BRAIN", "HYPERSHIELDS", "STAR SUPPLIES"] },
+            { problem: "CRYONITE CRISIS", steps: ["TELEPORTER CHARGE", "QUADRISCANNER", "GIGABLASTER", "QUADRISCANNER", "AL BRAIN", "AL BRAIN", "HYPERSHIELDS", "STELLAR DOCUMENTS", "TELEPORTER CHARGE"] },
+            
+            // Image 2
+            { problem: "PIT O' TROUBLE", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "GIGABLASTER", "TELEPORTER CHARGE", "GROWTON TORPEDO"] },
+            { problem: "CLOSE ENCOUNTER", steps: ["TACTICAL DRONE", "AL BRAIN", "CYBORG DIPLOMAT", "CYBORG DIPLOMAT", "QUADRISCANNER", "AL BRAIN"] },
+            { problem: "ONE ANGRY SHIP", steps: ["TACTICAL DRONE", "GROWTON TORPEDO", "CYBORG DIPLOMAT", "TELEPORTER CHARGE", "STELLAR DOCUMENTS", "TELEPORTER CHARGE"] },
+            { problem: "BOARDING PARTY", steps: ["QUADRISCANNER", "GIGABLASTER", "GIGABLASTER"] },
+            { problem: "TAKING AIM", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "GIGABLASTER", "TELEPORTER CHARGE"] },
+            { problem: "JUNK PUNKS", steps: ["AL BRAIN", "TACTICAL DRONE", "GROWTON TORPEDO", "AL BRAIN"] },
+            { problem: "ESCAPE POD", steps: ["TACTICAL DRONE", "HYPERSHIELDS", "TELEPORTER CHARGE", "QUADRISCANNER", "GIGABLASTER", "SPACE MEDS", "QUADRISCANNER", "TELEPORTER CHARGE", "GROWTON TORPEDO"] },
+            { problem: "GROWLACTUS", steps: ["TACTICAL DRONE", "HYPERSHIELDS", "GROWTON TORPEDO", "CYBORG DIPLOMAT", "GIGABLASTER", "AL BRAIN", "TELEPORTER CHARGE", "QUADRISCANNER", "GIGABLASTER", "TELEPORTER CHARGE"] },
+            
+            // Image 3
+            { problem: "SET A COURSE", steps: ["TACTICAL DRONE", "STELLAR DOCUMENTS"] },
+            { problem: "PARASITE HUNT (REBEL, BUG, SPIDER, SMUGGLER, XENOID, HIVE, PIRATE, GREEZAK, AND ROBOT HUNT)", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "GIGABLASTER", "TELEPORTER CHARGE"] },
+            { problem: "WARP DATA (PILOT, WARFARE, STORM, COLLISION, ASTEROID, SKELETON, MOON, CARGO, ENERGY, DEVASTATION, RADIATION, WEAPONS, DEBRIS, AND LITERARY DATA)", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "TELEPORTER CHARGE", "STELLAR DOCUMENTS"] },
+            { problem: "REBEL ATTACK (ALIEN, MAFIA, GREEZAK, ROBOT, PIRATE, JUNKER, SMUGGLER, VOLCANIX, AND XENOID ATTACK)", steps: ["TACTICAL DRONE", "HYPERSHIELDS", "GROWTON TORPEDO", "GROWTON TORPEDO"] },
+            { problem: "A CHALLENGE?!", steps: ["TACTICAL DRONE", "HYPERSHIELDS", "HYPERSHIELDS", "HYPERSHIELDS", "STELLAR DOCUMENTS"] },
+            { problem: "OUTPOST ATTACK", steps: ["TACTICAL DRONE", "GROWTON TORPEDO", "CYBORG DIPLOMAT", "TELEPORTER CHARGE", "STELLAR DOCUMENTS", "TELEPORTER CHARGE"] },
+            { problem: "SOLAR IMPACT", steps: ["HYPERSHIELDS", "GALACTICBOLT", "SPACE MEDS", "AL BRAIN", "TACTICAL DRONE"] },
+
+            // Image 4
+            { problem: "DOING THE JOB", steps: ["TACTICAL DRONE", "CYBORG DIPLOMAT", "TELEPORTER CHARGE", "STAR SUPPLIES", "STELLAR DOCUMENTS", "TELEPORTER CHARGE"] },
+            { problem: "SPACE OPERA", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "CYBORG DIPLOMAT", "CYBORG DIPLOMAT", "GIGABLASTER", "STELLAR DOCUMENTS"] },
+            { problem: "A NEW HOME", steps: ["TACTICAL DRONE", "CYBORG DIPLOMAT", "GROWTON TORPEDO", "CYBORG DIPLOMAT", "STAR SUPPLIES", "SPACE MEDS", "HYPERSHIELDS", "GROWTON TORPEDO", "CYBORG DIPLOMAT"] },
+
+            // Image 5
+            { problem: "SALVAGE RUN", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "TELEPORTER CHARGE"] },
+            { problem: "STARACHNID ATTACK", steps: ["TACTICAL DRONE", "GROWTON TORPEDO", "STAR SUPPLIES", "GROWTON TORPEDO", "GIGABLASTER"] },
+            { problem: "WINDY DAYS", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "TELEPORTER CHARGE"] },
+            { problem: "MINER RESCUE", steps: ["GALACTICBOLT", "TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "TELEPORTER CHARGE", "TELEPORTER CHARGE"] },
+            { problem: "HUNTER AND PREY", steps: ["TACTICAL DRONE", "AL BRAIN", "TELEPORTER CHARGE", "GIGABLASTER", "TELEPORTER CHARGE"] },
+            { problem: "LIFE POD", steps: ["TELEPORTER CHARGE", "QUADRISCANNER", "SPACE MEDS", "STAR SUPPLIES"] },
+            { problem: "ANCIENTS TEMPLE", steps: ["TACTICAL DRONE", "CYBORG DIPLOMAT", "STAR SUPPLIES", "STELLAR DOCUMENTS"] },
+            { problem: "DARK SHIP", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "AL BRAIN", "GROWTON TORPEDO", "GROWTON TORPEDO"] },
+            { problem: "EXPERIMENTAL SALVAGE", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "TELEPORTER CHARGE"] },
+
+            // Image 6
+            { problem: "XENOID DUEL / JUNKER DUEL / REBEL DUEL / RAIDER DUEL / PIRATE DUEL", steps: ["TACTICAL DRONE", "HYPERSHIELDS", "GROWTON TORPEDO", "AL BRAIN", "GROWTON TORPEDO"] },
+            { problem: "SPACE SITUATION EXTERMINATION / MOON EXTERMINATION / CARGO SHIP EXTERMINATION / MINING COLONY EXTERMINATION", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "STAR SUPPLIES", "GIGABLASTER", "STELLAR DOCUMENTS"] },
+            { problem: "SHADOW STALKERS", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "AL BRAIN", "GIGABLASTER", "TELEPORTER CHARGE", "QUADRISCANNER", "TELEPORTER CHARGE", "GROWTON TORPEDO"] },
+            { problem: "PLANET CALAMITY", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "AL BRAIN", "TELEPORTER CHARGE", "HYPERSHIELDS", "GROWTON TORPEDO", "TELEPORTER CHARGE"] },
+            { problem: "SCIENTIFIC OUTPOST DELIVERY / MISSILE BASE DELIVERY / MINING COLONY DELIVERY / MOON BASE DELIVERY", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "GIGABLASTER", "STAR SUPPLIES", "TELEPORTER CHARGE"] },
+            { problem: "WHO'S THERE? / SHE'S GONNA BLOW!", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "AL BRAIN", "QUADRISCANNER", "GIGABLASTER", "TELEPORTER CHARGE"] },
+
+            // Image 7
+            { problem: "DOING THE RIGHT THING / SECRET STASH", steps: ["TACTICAL DRONE", "HYPERSHIELDS", "TELEPORTER CHARGE", "GIGABLASTER", "QUADRISCANNER", "TELEPORTER CHARGE"] },
+            { problem: "PUTTING DOWN ROOTS", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "CYBORG DIPLOMAT", "STELLAR DOCUMENTS", "STAR SUPPLIES"] },
+            { problem: "DAYDREAMER", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "CYBORG DIPLOMAT", "GIGABLASTER"] },
+            { problem: "A TASTY BITE", steps: ["TACTICAL DRONE", "CYBORG DIPLOMAT", "GALACTICBOLT", "QUADRISCANNER", "AL BRAIN", "GALACTICBOLT", "GROWTON TORPEDO"] },
+            { problem: "ASTEROID RESCUE / CARGO SHIP RESCUE / MINING COLONY RESCUE / SPACE STATION RESCUE / MOON RESCUE", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "CYBORG DIPLOMAT", "SPACE MEDS", "STELLAR DOCUMENTS"] },
+            { problem: "PLANET OF ECHOES", steps: ["TACTICAL DRONE", "CYBORG DIPLOMAT", "TELEPORTER CHARGE", "QUADRISCANNER", "GIGABLASTER", "TELEPORTER CHARGE"] },
+            { problem: "PREVENT WAR", steps: ["HYPERSHIELDS", "TACTICAL DRONE", "CYBORG DIPLOMAT", "TELEPORTER CHARGE", "STELLAR DOCUMENTS", "GALACTICBOLT", "STAR SUPPLIES"] },
+
+            // Image 8
+            { problem: "STUCK IN THE MIDDLE", steps: ["TACTICAL DRONE", "HYPERSHIELDS", "AL BRAIN", "CYBORG DIPLOMAT", "AL BRAIN"] },
+            { problem: "SPACE DETECTIVE", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "STELLAR DOCUMENTS", "GROWTON TORPEDO"] },
+            { problem: "DOCTOR IN THE HOUSE", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "CYBORG DIPLOMAT", "SPACE MEDS", "GIGABLASTER", "CYBORG DIPLOMAT"] },
+            { problem: "SPACE JUNK CLEANUP / ASTEROID CLEANUP / RADIATION CLEANUP / ROCKET PARTS CLEANUP", steps: ["TACTICAL DRONE", "HYPERSHIELDS", "GROWTON TORPEDO", "HYPERSHIELDS", "STELLAR DOCUMENTS"] },
+            { problem: "GROSS MISTAKE", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "GIGABLASTER", "STAR SUPPLIES", "TELEPORTER CHARGE"] },
+            { problem: "RELIC DATA / MINERAL DATA / WEIRD CONTRAPTION", steps: ["TACTICAL DRONE", "TELEPORTER CHARGE", "QUADRISCANNER", "TELEPORTER CHARGE", "STELLAR DOCUMENTS"] },
+            { problem: "BLACKOUT", steps: ["GALACTICBOLT", "TACTICAL DRONE", "HYPERSHIELDS", "GROWTON TORPEDO", "GROWTON TORPEDO", "GALACTICBOLT"] },
+            { problem: "LONELY LITTLE DROID", steps: ["CYBORG DIPLOMAT", "TELEPORTER CHARGE", "STAR SUPPLIES", "QUADRISCANNER", "GIGABLASTER"] }
+        ];
+
+        const searchInput = document.getElementById('searchInput');
+        const itemsList = document.getElementById('itemsList');
+        const matchCount = document.getElementById('matchCount');
+        const noResults = document.getElementById('noResults');
+
+        // Render function
+        function renderItems(filterText = "") {
+            itemsList.innerHTML = "";
+            const filtered = startopiaData.filter(item => 
+                item.problem.toLowerCase().includes(filterText.toLowerCase())
+            );
+
+            matchCount.textContent = `${filtered.length} Problem`;
+
+            if (filtered.length === 0) {
+                noResults.style.display = "block";
+            } else {
+                noResults.style.display = "none";
+                filtered.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'item-card';
+
+                    // Build steps html with arrows
+                    let stepsHtml = "";
+                    item.steps.forEach((step, idx) => {
+                        stepsHtml += `<span class="step-pill">${step}</span>`;
+                        if (idx < item.steps.length - 1) {
+                            stepsHtml += `<span class="step-arrow">➔</span>`;
+                        }
+                    });
+
+                    card.innerHTML = `
+                        <div class="problem-title">${item.problem}</div>
+                        <div class="steps-container">
+                            ${stepsHtml}
+                        </div>
+                    `;
+                    itemsList.appendChild(card);
+                });
+            }
+        }
+
+        // Live Search event listener
+        searchInput.addEventListener('input', (e) => {
+            renderItems(e.target.value);
+        });
+
+        // Initial paint
+        renderItems();
+    </script>
+</body>
+</html>
